@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.joiest.market.pay.api.mapper.PayBankCardMapper" >
+  <resultMap id="BaseResultMap" type="com.joiest.market.pay.api.entity.generate.PayBankCard" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="bankName" property="bankname" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="CHAR" />
+    <result column="cardName" property="cardname" jdbcType="VARCHAR" />
+    <result column="isAtm" property="isatm" jdbcType="CHAR" />
+    <result column="isPos" property="ispos" jdbcType="CHAR" />
+    <result column="cardLen" property="cardlen" jdbcType="VARCHAR" />
+    <result column="cardPre" property="cardpre" jdbcType="VARCHAR" />
+    <result column="cardPreLen" property="cardprelen" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="BIT" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="findCode" property="findcode" jdbcType="VARCHAR" />
+    <result column="Singlelimit" property="singlelimit" jdbcType="DECIMAL" />
+    <result column="Dailylimit" property="dailylimit" jdbcType="DECIMAL" />
+    <result column="Monthlyquota" property="monthlyquota" jdbcType="DECIMAL" />
+    <result column="sort" property="sort" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="images" property="images" jdbcType="VARCHAR" />
+    <result column="smalImages" property="smalimages" jdbcType="VARCHAR" />
+    <result column="yftcode" property="yftcode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, bankName, title, code, cardName, isAtm, isPos, cardLen, cardPre, cardPreLen, 
+    type, status, createTime, findCode, Singlelimit, Dailylimit, Monthlyquota, sort, 
+    source, images, smalImages, yftcode
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.joiest.market.pay.api.entity.generate.PayBankCardExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pay_bank_card
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_bank_card
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pay_bank_card
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.joiest.market.pay.api.entity.generate.PayBankCardExample" >
+    delete from pay_bank_card
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.joiest.market.pay.api.entity.generate.PayBankCard" >
+    insert into pay_bank_card (id, bankName, title, 
+      code, cardName, isAtm, isPos, 
+      cardLen, cardPre, cardPreLen, 
+      type, status, createTime, 
+      findCode, Singlelimit, Dailylimit, 
+      Monthlyquota, sort, source, 
+      images, smalImages, yftcode
+      )
+    values (#{id,jdbcType=INTEGER}, #{bankname,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{code,jdbcType=CHAR}, #{cardname,jdbcType=VARCHAR}, #{isatm,jdbcType=CHAR}, #{ispos,jdbcType=CHAR}, 
+      #{cardlen,jdbcType=VARCHAR}, #{cardpre,jdbcType=VARCHAR}, #{cardprelen,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{findcode,jdbcType=VARCHAR}, #{singlelimit,jdbcType=DECIMAL}, #{dailylimit,jdbcType=DECIMAL}, 
+      #{monthlyquota,jdbcType=DECIMAL}, #{sort,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, 
+      #{images,jdbcType=VARCHAR}, #{smalimages,jdbcType=VARCHAR}, #{yftcode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.joiest.market.pay.api.entity.generate.PayBankCard" >
+    insert into pay_bank_card
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bankname != null" >
+        bankName,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="cardname != null" >
+        cardName,
+      </if>
+      <if test="isatm != null" >
+        isAtm,
+      </if>
+      <if test="ispos != null" >
+        isPos,
+      </if>
+      <if test="cardlen != null" >
+        cardLen,
+      </if>
+      <if test="cardpre != null" >
+        cardPre,
+      </if>
+      <if test="cardprelen != null" >
+        cardPreLen,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="findcode != null" >
+        findCode,
+      </if>
+      <if test="singlelimit != null" >
+        Singlelimit,
+      </if>
+      <if test="dailylimit != null" >
+        Dailylimit,
+      </if>
+      <if test="monthlyquota != null" >
+        Monthlyquota,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="images != null" >
+        images,
+      </if>
+      <if test="smalimages != null" >
+        smalImages,
+      </if>
+      <if test="yftcode != null" >
+        yftcode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bankname != null" >
+        #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=CHAR},
+      </if>
+      <if test="cardname != null" >
+        #{cardname,jdbcType=VARCHAR},
+      </if>
+      <if test="isatm != null" >
+        #{isatm,jdbcType=CHAR},
+      </if>
+      <if test="ispos != null" >
+        #{ispos,jdbcType=CHAR},
+      </if>
+      <if test="cardlen != null" >
+        #{cardlen,jdbcType=VARCHAR},
+      </if>
+      <if test="cardpre != null" >
+        #{cardpre,jdbcType=VARCHAR},
+      </if>
+      <if test="cardprelen != null" >
+        #{cardprelen,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="findcode != null" >
+        #{findcode,jdbcType=VARCHAR},
+      </if>
+      <if test="singlelimit != null" >
+        #{singlelimit,jdbcType=DECIMAL},
+      </if>
+      <if test="dailylimit != null" >
+        #{dailylimit,jdbcType=DECIMAL},
+      </if>
+      <if test="monthlyquota != null" >
+        #{monthlyquota,jdbcType=DECIMAL},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="images != null" >
+        #{images,jdbcType=VARCHAR},
+      </if>
+      <if test="smalimages != null" >
+        #{smalimages,jdbcType=VARCHAR},
+      </if>
+      <if test="yftcode != null" >
+        #{yftcode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.joiest.market.pay.api.entity.generate.PayBankCardExample" resultType="java.lang.Integer" >
+    select count(*) from pay_bank_card
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update pay_bank_card
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.bankname != null" >
+        bankName = #{record.bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=CHAR},
+      </if>
+      <if test="record.cardname != null" >
+        cardName = #{record.cardname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isatm != null" >
+        isAtm = #{record.isatm,jdbcType=CHAR},
+      </if>
+      <if test="record.ispos != null" >
+        isPos = #{record.ispos,jdbcType=CHAR},
+      </if>
+      <if test="record.cardlen != null" >
+        cardLen = #{record.cardlen,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardpre != null" >
+        cardPre = #{record.cardpre,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardprelen != null" >
+        cardPreLen = #{record.cardprelen,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=BIT},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.findcode != null" >
+        findCode = #{record.findcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.singlelimit != null" >
+        Singlelimit = #{record.singlelimit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dailylimit != null" >
+        Dailylimit = #{record.dailylimit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.monthlyquota != null" >
+        Monthlyquota = #{record.monthlyquota,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sort != null" >
+        sort = #{record.sort,jdbcType=VARCHAR},
+      </if>
+      <if test="record.source != null" >
+        source = #{record.source,jdbcType=VARCHAR},
+      </if>
+      <if test="record.images != null" >
+        images = #{record.images,jdbcType=VARCHAR},
+      </if>
+      <if test="record.smalimages != null" >
+        smalImages = #{record.smalimages,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yftcode != null" >
+        yftcode = #{record.yftcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update pay_bank_card
+    set id = #{record.id,jdbcType=INTEGER},
+      bankName = #{record.bankname,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=CHAR},
+      cardName = #{record.cardname,jdbcType=VARCHAR},
+      isAtm = #{record.isatm,jdbcType=CHAR},
+      isPos = #{record.ispos,jdbcType=CHAR},
+      cardLen = #{record.cardlen,jdbcType=VARCHAR},
+      cardPre = #{record.cardpre,jdbcType=VARCHAR},
+      cardPreLen = #{record.cardprelen,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=BIT},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      findCode = #{record.findcode,jdbcType=VARCHAR},
+      Singlelimit = #{record.singlelimit,jdbcType=DECIMAL},
+      Dailylimit = #{record.dailylimit,jdbcType=DECIMAL},
+      Monthlyquota = #{record.monthlyquota,jdbcType=DECIMAL},
+      sort = #{record.sort,jdbcType=VARCHAR},
+      source = #{record.source,jdbcType=VARCHAR},
+      images = #{record.images,jdbcType=VARCHAR},
+      smalImages = #{record.smalimages,jdbcType=VARCHAR},
+      yftcode = #{record.yftcode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.joiest.market.pay.api.entity.generate.PayBankCard" >
+    update pay_bank_card
+    <set >
+      <if test="bankname != null" >
+        bankName = #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=CHAR},
+      </if>
+      <if test="cardname != null" >
+        cardName = #{cardname,jdbcType=VARCHAR},
+      </if>
+      <if test="isatm != null" >
+        isAtm = #{isatm,jdbcType=CHAR},
+      </if>
+      <if test="ispos != null" >
+        isPos = #{ispos,jdbcType=CHAR},
+      </if>
+      <if test="cardlen != null" >
+        cardLen = #{cardlen,jdbcType=VARCHAR},
+      </if>
+      <if test="cardpre != null" >
+        cardPre = #{cardpre,jdbcType=VARCHAR},
+      </if>
+      <if test="cardprelen != null" >
+        cardPreLen = #{cardprelen,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="findcode != null" >
+        findCode = #{findcode,jdbcType=VARCHAR},
+      </if>
+      <if test="singlelimit != null" >
+        Singlelimit = #{singlelimit,jdbcType=DECIMAL},
+      </if>
+      <if test="dailylimit != null" >
+        Dailylimit = #{dailylimit,jdbcType=DECIMAL},
+      </if>
+      <if test="monthlyquota != null" >
+        Monthlyquota = #{monthlyquota,jdbcType=DECIMAL},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="images != null" >
+        images = #{images,jdbcType=VARCHAR},
+      </if>
+      <if test="smalimages != null" >
+        smalImages = #{smalimages,jdbcType=VARCHAR},
+      </if>
+      <if test="yftcode != null" >
+        yftcode = #{yftcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.joiest.market.pay.api.entity.generate.PayBankCard" >
+    update pay_bank_card
+    set bankName = #{bankname,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      code = #{code,jdbcType=CHAR},
+      cardName = #{cardname,jdbcType=VARCHAR},
+      isAtm = #{isatm,jdbcType=CHAR},
+      isPos = #{ispos,jdbcType=CHAR},
+      cardLen = #{cardlen,jdbcType=VARCHAR},
+      cardPre = #{cardpre,jdbcType=VARCHAR},
+      cardPreLen = #{cardprelen,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      status = #{status,jdbcType=BIT},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      findCode = #{findcode,jdbcType=VARCHAR},
+      Singlelimit = #{singlelimit,jdbcType=DECIMAL},
+      Dailylimit = #{dailylimit,jdbcType=DECIMAL},
+      Monthlyquota = #{monthlyquota,jdbcType=DECIMAL},
+      sort = #{sort,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      images = #{images,jdbcType=VARCHAR},
+      smalImages = #{smalimages,jdbcType=VARCHAR},
+      yftcode = #{yftcode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -33,6 +33,7 @@
     <module>market-purchaser-api</module>
     <module>market-statistics-api</module>
     <module>market-recharge-api</module>
+    <module>market-common-utils</module>
   </modules>
 
   <distributionManagement>

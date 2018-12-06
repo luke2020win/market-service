@@ -1,7 +1,7 @@
 package com.joiest.market.order.api.controller;
 
+import com.joiest.market.common.exception.JpfInterfaceErrorInfo;
 import com.joiest.market.common.utils.JsonUtils;
-import com.joiest.market.order.api.exception.JpfInterfaceErrorInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +18,7 @@ public class OrderInfoController {
     private Logger logger = LoggerFactory.getLogger(OrderInfoController.class);
 
     /**
-     * 
+     * 获取订单列表接口
      * @param requestBase64Param
      * @return
      */

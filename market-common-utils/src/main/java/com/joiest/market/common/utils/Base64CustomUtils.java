@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
- * base64加密
+ * base64加密工具类
  * @author zhouchaowei
  */
 public class Base64CustomUtils {

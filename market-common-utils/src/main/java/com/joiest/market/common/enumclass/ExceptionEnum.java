@@ -1,10 +1,10 @@
-package com.joiest.market.common.exception;
+package com.joiest.market.common.enumclass;
 
 /**
  * 错误码信息
  * Created by zjf1650 on 07/07/2017.
  */
-public enum JpfInterfaceErrorInfo {
+public enum ExceptionEnum {
 
     SUCCESS("10000", "SUCCESS"),
     FAIL("10008", "失败"),
@@ -132,7 +132,7 @@ public enum JpfInterfaceErrorInfo {
         this.data = null;
     }
 
-    JpfInterfaceErrorInfo(String code, String desc) {
+    ExceptionEnum(String code, String desc) {
         this.code = code;
         this.desc = desc;
     }

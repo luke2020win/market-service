@@ -1,5 +1,6 @@
 package com.joiest.market.common.utils;
 
+import com.joiest.market.common.enumclass.TranscodingEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +22,7 @@ public class TransferCode {
      * @throws UnsupportedEncodingException
      */
     public static void main(String[] args) throws UnsupportedEncodingException {
-        System.out.println(urlDecoder(urlEecoder("http://www.baidu.com",TranscodingEnum.UTF_8.getCode()), TranscodingEnum.UTF_8.getCode()));
+        System.out.println(urlDecoder(urlEecoder("http://www.baidu.com", TranscodingEnum.UTF_8.getCode()), TranscodingEnum.UTF_8.getCode()));
     }
 
     /**

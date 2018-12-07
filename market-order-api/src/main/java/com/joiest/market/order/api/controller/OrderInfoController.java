@@ -1,6 +1,6 @@
 package com.joiest.market.order.api.controller;
 
-import com.joiest.market.common.exception.JpfInterfaceErrorInfo;
+import com.joiest.market.common.enumclass.ExceptionEnum;
 import com.joiest.market.common.utils.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +24,6 @@ public class OrderInfoController {
      */
     @RequestMapping(value = "/getOrderList")
     public String getOrderList(String requestBase64Param){
-        return JsonUtils.toJsonBase64(JpfInterfaceErrorInfo.FAIL.getCode(),"参数不能为空",null);
+        return JsonUtils.toJsonBase64(ExceptionEnum.FAIL.getCode(),"参数不能为空",null);
     }
 }

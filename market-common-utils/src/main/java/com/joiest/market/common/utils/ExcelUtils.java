@@ -1,7 +1,7 @@
 package com.joiest.market.common.utils;
 
-import com.joiest.market.common.example.User;
 import net.sf.json.JSONObject;
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.xssf.streaming.SXSSFCell;
 import org.apache.poi.xssf.streaming.SXSSFRow;
@@ -10,6 +10,12 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -22,12 +28,12 @@ public class ExcelUtils {
 
     /**
      * 将List导出数据到Excel
-     * @param list 要导出的数据集合
+     * @param list 要导出的数据集合(注意：List的泛型需要根据具体的类来定制)
      * @param operationType 操作类型 1.下载文件形式 2.生成文件形式
      * @param titleArray 数据表的表头字段数组
      * @return JSONObject
      */
-    public static JSONObject exportDataToExcel(List<User> list, int operationType, String [] titleArray){
+    public static <T> JSONObject exportDataToExcel(HttpServletResponse response, List<T> list, int operationType, String path, String [] titleArray) throws NoSuchMethodException {
         logger.info("开始将List的数据导出到Excel");
         operationType = operationType < 1 ? 1 : operationType;
         JSONObject res = new JSONObject();
@@ -41,20 +47,71 @@ public class ExcelUtils {
             }
             // 生成标题
             Map<Integer, Object> firstTitles = new HashMap<>();
-            for(int k = 0;k < titleArray.length;k++){
-                firstTitles.put(k, titleArray[k]);
-            }
+            // TODO 这里需要设置需要生成Excel表的表头字段内容(需要根据具体需求定制) start
+            firstTitles.put(0, "姓名");
+            firstTitles.put(1, "密码");
+            // TODO 这里需要设置需要生成Excel表的表头字段内容(需要根据具体需求定制) end
             genSheetHead(sheet, firstTitles);
             for (int rowNum = 1; rowNum < list.size(); rowNum++) {
                 SXSSFRow row = sheet.createRow(rowNum);
                 int k = -1;
-                createCell(row, ++k, list.get(rowNum - 1).getName());
-                createCell(row, ++k, list.get(rowNum - 1).getPassword());
+                // TODO 这里需要设置具体写入单元格的内容，一般为对象属性的值(需要根据具体需求定制) start
+                createCell(row, ++k, list.get(rowNum - 1).getClass().getMethod(""));
+                // TODO 这里需要设置具体写入单元格的内容，一般为对象属性的值(需要根据具体需求定制) end
             }
+        }
+        String fileName = "欣豆市场订单列表-" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx";
+        return writeIntoExcel(fileName,response,xssfWorkbook,path,operationType,res);
+    }
+
+    /**
+     * 将数据写入Excel文件
+     * @param fileName 文件名称
+     * @param response 响应
+     * @param xssfWorkbook 要写入Excel的workbook对象
+     * @param path 文件路径
+     * @param type 操作类型
+     * @param res 返回的JSON对象
+     * @return
+     */
+    private static JSONObject writeIntoExcel(String fileName, HttpServletResponse response, SXSSFWorkbook xssfWorkbook, String path, int type, JSONObject res){
+        logger.info("开始将数据写入Excel文件");
+        OutputStream output= null;
+        try{
+            if(type == 1){
+                response.reset();
+                output = response.getOutputStream();
+                response.setCharacterEncoding("utf-8");
+                response.setHeader("Content-disposition", "attachment;filename="+new String(fileName.getBytes("gbk"), "iso8859-1"));
+                response.setContentType("application/vnd.ms-excel");
+                xssfWorkbook.write(output);
+                output.close();
+            }else{
+                File fileDir = new File(path);
+                if (!fileDir.exists()) {
+                    fileDir.mkdirs();
+                }
+                File file = new File(path + fileName);
+                file.createNewFile();
+                //将excel写入
+                FileOutputStream stream= FileUtils.openOutputStream(file);
+                xssfWorkbook.write(stream);
+                stream.close();
+
+                JSONObject fileInfo = new JSONObject();
+                //服务器实际路径
+                fileInfo.put("localUrl",path + fileName);
+                //文件名
+                fileInfo.put("fileName",fileName);
+
+                res.put("data",fileInfo);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
         }
         return res;
     }
-
+    
     /**
      * 生成sheet页的方法
      * @param sheet 当前sheet页对象
@@ -62,6 +119,12 @@ public class ExcelUtils {
      */
     private static void genSheetHead(SXSSFSheet sheet, Map<Integer, Object> firstTitles) {
         logger.info("开始生成Sheet页");
+        SXSSFRow row = sheet.createRow(0);
+        for (Integer cellNum : firstTitles.keySet()) {
+            SXSSFCell cell = row.createCell(cellNum);
+            Object value = firstTitles.get(cellNum);
+            generateValue(value, cell);
+        }
     }
 
     /**

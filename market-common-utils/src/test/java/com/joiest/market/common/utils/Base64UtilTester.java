@@ -5,15 +5,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Json工具类测试类
+ * Base64工具类测试类
  * @author admin 
  */
-public class JsonUtilTester {
-    
+public class Base64UtilTester {
+
     private static Logger logger = LoggerFactory.getLogger(JsonUtilTester.class);
     
     @Test
-    public void test_toJsonBase64(){
-        
+    public void test_base64Encoder(){
+        System.out.println("base64加密后的串是：" + Base64CustomUtils.base64Encoder("Hello world"));
     }
 }

@@ -1,4 +1,4 @@
-package com.joiest.market.common.utils;
+package com.joiest.market.common.enumclass;
 
 /**
  * 编码格式的枚举类

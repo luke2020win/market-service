@@ -1,5 +1,6 @@
 package com.joiest.market.common.utils;
 
+import com.joiest.market.common.example.User;
 import net.sf.json.JSONObject;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.xssf.streaming.SXSSFCell;
@@ -24,10 +25,9 @@ public class ExcelUtils {
      * @param list 要导出的数据集合
      * @param operationType 操作类型 1.下载文件形式 2.生成文件形式
      * @param titleArray 数据表的表头字段数组
-     * @param <T>
      * @return JSONObject
      */
-    public static <T> JSONObject exportDataToExcel(List<T> list, int operationType,String [] titleArray){
+    public static JSONObject exportDataToExcel(List<User> list, int operationType, String [] titleArray){
         logger.info("开始将List的数据导出到Excel");
         operationType = operationType < 1 ? 1 : operationType;
         JSONObject res = new JSONObject();
@@ -48,8 +48,8 @@ public class ExcelUtils {
             for (int rowNum = 1; rowNum < list.size(); rowNum++) {
                 SXSSFRow row = sheet.createRow(rowNum);
                 int k = -1;
-                createCell(row, ++k, list.get(rowNum - 1));
-                // TODO 未完成(list泛型未定义)
+                createCell(row, ++k, list.get(rowNum - 1).getName());
+                createCell(row, ++k, list.get(rowNum - 1).getPassword());
             }
         }
         return res;

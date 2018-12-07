@@ -52,8 +52,6 @@
     </dependencies>
 
     <build>
-        <finalName>market-common-api</finalName>
+        <finalName>market-common-utils</finalName>
     </build>
-
-
 </project>

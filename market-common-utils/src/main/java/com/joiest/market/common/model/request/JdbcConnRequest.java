@@ -6,6 +6,7 @@ package com.joiest.market.common.model.request;
  */
 public class JdbcConnRequest {
     
+    private String driverClass;
     private String username;
     private String password;
     private String url;
@@ -14,6 +15,14 @@ public class JdbcConnRequest {
         this.username = username;
         this.password = password;
         this.url = url;
+    }
+
+    public String getDriverClass() {
+        return driverClass;
+    }
+
+    public void setDriverClass(String driverClass) {
+        this.driverClass = driverClass;
     }
 
     public String getUsername() {

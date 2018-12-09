@@ -7,6 +7,7 @@ import org.apache.poi.xssf.streaming.SXSSFCell;
 import org.apache.poi.xssf.streaming.SXSSFRow;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.glassfish.jersey.internal.guava.ThreadFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.*;
 
 /**
  * Excel操作工具类
@@ -25,6 +27,93 @@ import java.util.*;
 public class ExcelUtils {
     
     private static Logger logger = LoggerFactory.getLogger(ExcelUtils.class);
+
+    private final static Object object = new Object();
+
+    /**
+     * 采用线程池的方式分sheet页导出数据
+     * @param filePath 生成Excel文件的路径
+     * @param fileName 生成Excel文件的名字(不用带.xlsx或.xls文件后缀)
+     */
+    public static void exportExcelFile(String filePath, String fileName){
+        int processor = Runtime.getRuntime().availableProcessors();
+        logger.info("获取处理器核心数:{}",processor);
+        SXSSFWorkbook workBook = new SXSSFWorkbook();
+        // 手工创建线程池
+        ExecutorService executorService = new ThreadPoolExecutor(processor,
+                processor,
+                1000,
+                TimeUnit.MILLISECONDS,
+                new LinkedBlockingDeque(),
+                new ThreadFactoryBuilder().setNameFormat("poi-task-%d").build());
+        //计数器 等待线程池中的线程执行完毕
+        CountDownLatch countDownLatch = new CountDownLatch(processor);
+        for (int i = 0; i < processor; i++) {
+            int sheetId = i;
+            // 放入线程池中 
+            executorService.execute(() -> createSheet(workBook, sheetId, countDownLatch));
+        }
+        FileOutputStream fou = null;
+        try {
+            //等待所有线程执行完毕
+            countDownLatch.await();
+            executorService.shutdown();
+            fou = new FileOutputStream(filePath + "/" + fileName + ".xlsx");
+            workBook.write(fou);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fou != null) {
+                try {
+                    fou.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * 创建Sheet页的方法
+     * @param workBook
+     * @param sheetId
+     * @param countDownLatch
+     */
+    private static void createSheet(SXSSFWorkbook workBook, int sheetId, CountDownLatch countDownLatch) {
+        try {
+            SXSSFSheet sxssfSheet;
+            //这个地方一定要加锁，要不然会出现问题 
+            synchronized (object) {
+                //创建sheet页 
+                sxssfSheet = workBook.createSheet(String.format("第%d个sheet页", sheetId));
+            }
+            SXSSFRow sxssfRow = sxssfSheet.createRow(0);
+            SXSSFCell sxssfCell = sxssfRow.createCell(0);
+            sxssfCell.setCellValue("第" + sheetId + "个sheet页，第一行，第一个单元格");
+
+            sxssfCell = sxssfRow.createCell(1);
+            sxssfCell.setCellValue("第" + sheetId + "个sheet页，第一行，第二个单元格");
+
+            sxssfCell = sxssfRow.createCell(2);
+            sxssfCell.setCellValue("第" + sheetId + "个sheet页，第一行，第三个单元格");
+
+            SXSSFRow hssfRows;
+            SXSSFCell hSSFCells;
+            for (int i = 1; i < 10; i++) {
+                hssfRows = sxssfSheet.createRow(i);
+                hSSFCells = hssfRows.createCell(0);
+                hSSFCells.setCellValue("第" + sheetId + "个sheet页，第" + (i + 1) + "行，第一个单元格");
+                hSSFCells = hssfRows.createCell(1);
+                hSSFCells.setCellValue("第" + sheetId + "个sheet页，第" + (i + 1) + "行，第二个单元格");
+                hSSFCells = hssfRows.createCell(2);
+                hSSFCells.setCellValue("第" + sheetId + "个sheet页，第" + (i + 1) + "行，第三个单元格");
+            }
+        }finally {
+            countDownLatch.countDown();
+        }
+    }
 
     /**
      * 将List导出数据到Excel

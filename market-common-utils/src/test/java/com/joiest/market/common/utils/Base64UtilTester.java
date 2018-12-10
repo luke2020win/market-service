@@ -14,6 +14,6 @@ public class Base64UtilTester {
     
     @Test
     public void test_base64Encoder(){
-        System.out.println("base64加密后的串是：" + Base64CustomUtils.base64Encoder("Hello world"));
+        System.out.println("base64加密后的串是：" + Base64CustomUtils.base64Encoder("zqznzcw19921115"));
     }
 }

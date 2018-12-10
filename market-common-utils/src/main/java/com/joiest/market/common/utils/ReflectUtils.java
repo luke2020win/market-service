@@ -1,7 +1,5 @@
 package com.joiest.market.common.utils;
 
-import com.joiest.market.common.example.User;
-
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;

@@ -77,10 +77,17 @@
             <version>2.1.1</version>
         </dependency>
 
+        <!-- SSH远程连接相关依赖 -->
+        <dependency>
+            <groupId>ch.ethz.ganymed</groupId>
+            <artifactId>ganymed-ssh2</artifactId>
+            <version>build210</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.5</version>
+            <type>jar</type>
         </dependency>
 
         <!-- FTP、SFTP依赖 -->

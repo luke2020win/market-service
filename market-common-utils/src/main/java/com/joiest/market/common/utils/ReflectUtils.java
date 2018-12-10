@@ -33,4 +33,14 @@ public class ReflectUtils {
         }
         return methodList;
     }
+
+    /**
+     * 获取类的所有属性
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public static <T> Field [] getClassField(Class<T> clazz) {
+        return clazz.getDeclaredFields();
+    }
 }

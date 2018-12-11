@@ -24,3 +24,12 @@
 <b>market-recharge-api</b> &nbsp;&nbsp; 充值模块<br>
 <b>market-examine-api</b> &nbsp;&nbsp; 审核模块<br>
 <b>market-statistics-api</b> &nbsp;&nbsp; 统计模块<br>
+
+<h3>以下为 2018-12-12 新增模块：</h3>
+<hr>
+<b>market-shipping-api</b> &nbsp;&nbsp; 物流发货系统模块<br>
+<b>market-search-api</b> &nbsp;&nbsp; 搜索服务模块<br>
+<br>
+<br>
+<br>
+<br>

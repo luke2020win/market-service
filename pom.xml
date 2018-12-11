@@ -34,6 +34,8 @@
     <module>market-statistics-api</module>
     <module>market-recharge-api</module>
     <module>market-common-utils</module>
+    <module>market-shipping-api</module>
+    <module>market-search-api</module>
   </modules>
 
   <distributionManagement>

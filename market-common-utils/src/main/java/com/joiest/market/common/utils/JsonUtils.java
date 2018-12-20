@@ -68,7 +68,7 @@ public class JsonUtils {
 
     /**
      * 将map转换为json的方法
-     * @param entity
+     * @param entity 
      * @param <T>
      * @return
      */
@@ -85,6 +85,17 @@ public class JsonUtils {
         return null;
     }
 
+    /**
+     * 将json字符串数组转换成List集合
+     * @param str 要转换的json字符串数组
+     * @param clazz 要转换的目标List集合泛型类
+     * @param <T> 泛型
+     * @return
+     */
+    public static <T> List<T> jsonStrToList(String str,Class<T> clazz){
+        return (List<T>)JSONArray.parseArray(str,clazz);
+    }
+    
     /**
      * 将xml转换成json的方法
      * @param xml 要转换成的xml字符串
